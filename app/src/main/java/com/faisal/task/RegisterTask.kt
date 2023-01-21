@@ -16,10 +16,7 @@ class RegisterTask : AppCompatActivity() {
         val taskName = findViewById<EditText>(R.id.task_name_text)
         val register = findViewById<Button>(R.id.register_task)
         val phoneNumber: String? = intent.getStringExtra("phoneNumber")
-        Toast.makeText(this, "phone number is $phoneNumber", Toast.LENGTH_SHORT).show()
-
         register.setOnClickListener{
-            Toast.makeText(this, "phone number is $phoneNumber", Toast.LENGTH_SHORT).show()
 
             var taskIsCompleted = false
             if ( isCompleted.text.toString().equals("done")) {
