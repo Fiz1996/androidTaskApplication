@@ -15,6 +15,7 @@ class UserDatabase(
     override fun onCreate(db: SQLiteDatabase) {
         val taskDatabase:String = "CREATE TABLE $TABLE_NAME " +
                 "($COLUMN_ID INTEGER PRIMARY KEY, " +
+                "$IS_COMPLETED BOOLEAN,"+
                 "$COLUMN_NAME TEXT)"
 
         val userDatabase: String = "CREATE TABLE  $USER_TABLE_NAME " +
@@ -38,11 +39,12 @@ class UserDatabase(
         onCreate(db)
     }
 
-    fun insertTask(name: String) {
+    fun insertTask(name: String,isCompleted:Boolean) {
         val db = writableDatabase
         val values = ContentValues()
 
         values.put(COLUMN_NAME, name)
+        values.put(IS_COMPLETED , isCompleted)
         db.insert(TABLE_NAME, null, values)
     }
 
@@ -131,13 +133,14 @@ class UserDatabase(
 
     companion object {
         // Database Info
-        const val DATABASE_NAME = "database"
+        const val DATABASE_NAME = "task_database_on"
         const val DATABASE_VERSION = 1
 
         // task Table Info
         const val TABLE_NAME = "task_table"
         const val COLUMN_ID = "id"
         const val COLUMN_NAME = "task_name"
+        const val IS_COMPLETED= "is_completed"
 
 
         // user Table Info

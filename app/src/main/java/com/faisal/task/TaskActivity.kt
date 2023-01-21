@@ -1,16 +1,15 @@
 package com.faisal.task
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 
 class TaskActivity : AppCompatActivity() {
     private val database = UserDatabase(this)
     private lateinit var adapter: TasksRecyclerView
     private lateinit var usersList: RecyclerView
-    private lateinit var userInput: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
@@ -18,18 +17,13 @@ class TaskActivity : AppCompatActivity() {
 
 
         usersList = findViewById(R.id.user_tasks)
-        userInput = findViewById(R.id.user_name)
         val addButton = findViewById<Button>(R.id.add)
 
         listAdapter()
 
         addButton.setOnClickListener {
-
-
-            database.insertTask(name = userInput.text.toString())
-            userInput.setText("")
-
-            listAdapter()
+            val intent = Intent(this, RegisterTask::class.java)
+            startActivity(intent)
         }
     }
 
@@ -41,6 +35,5 @@ class TaskActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        listAdapter()
     }
     }
