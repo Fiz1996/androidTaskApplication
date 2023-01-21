@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 
 class RegisterTask : AppCompatActivity() {
     private val database = UserDatabase(this)
@@ -14,14 +15,18 @@ class RegisterTask : AppCompatActivity() {
         val isCompleted = findViewById<EditText>(R.id.is_completed_text)
         val taskName = findViewById<EditText>(R.id.task_name_text)
         val register = findViewById<Button>(R.id.register_task)
+        val phoneNumber: String? = intent.getStringExtra("phoneNumber")
+        Toast.makeText(this, "phone number is $phoneNumber", Toast.LENGTH_SHORT).show()
 
         register.setOnClickListener{
+            Toast.makeText(this, "phone number is $phoneNumber", Toast.LENGTH_SHORT).show()
+
             var taskIsCompleted = false
             if ( isCompleted.text.toString().equals("done")) {
                 taskIsCompleted =true
             }
 
-            database.insertTask(taskName.text.toString(),taskIsCompleted)
+            database.insertTask(taskName.text.toString(),taskIsCompleted,phoneNumber)
             finish()
         }
 

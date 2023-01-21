@@ -16,6 +16,7 @@ class UserDatabase(
         val taskDatabase:String = "CREATE TABLE $TABLE_NAME " +
                 "($COLUMN_ID INTEGER PRIMARY KEY, " +
                 "$IS_COMPLETED BOOLEAN,"+
+                "$PHONE_NUMBER TEXT," +
                 "$COLUMN_NAME TEXT)"
 
         val userDatabase: String = "CREATE TABLE  $USER_TABLE_NAME " +
@@ -39,12 +40,13 @@ class UserDatabase(
         onCreate(db)
     }
 
-    fun insertTask(name: String,isCompleted:Boolean) {
+    fun insertTask(name: String,isCompleted:Boolean,phoneNumber: String?) {
         val db = writableDatabase
         val values = ContentValues()
 
         values.put(COLUMN_NAME, name)
         values.put(IS_COMPLETED , isCompleted)
+        values.put(PHONE_NUMBER,phoneNumber)
         db.insert(TABLE_NAME, null, values)
     }
 
@@ -73,10 +75,11 @@ class UserDatabase(
         return taskInfo
     }
 
-    fun getTasks(): List<TaskModel> {
+    fun getTasks(phoneNumber: String?): List<TaskModel> {
         val db = readableDatabase
         val tasks = arrayListOf<TaskModel>()
-        val query = "SELECT * FROM $TABLE_NAME"
+        val query = "SELECT * FROM $TABLE_NAME "+
+                "INNER JOIN $USER_TABLE_NAME ON $TABLE_NAME.$PHONE_NUMBER=$USER_TABLE_NAME.$USER_PHONE WHERE $USER_PHONE= $phoneNumber"
 
         try {
             val cursor = db.rawQuery(query, null)
@@ -133,7 +136,7 @@ class UserDatabase(
 
     companion object {
         // Database Info
-        const val DATABASE_NAME = "task_database_on"
+        const val DATABASE_NAME = "task_database_testing"
         const val DATABASE_VERSION = 1
 
         // task Table Info
@@ -141,6 +144,7 @@ class UserDatabase(
         const val COLUMN_ID = "id"
         const val COLUMN_NAME = "task_name"
         const val IS_COMPLETED= "is_completed"
+        const val PHONE_NUMBER = "fk_phone_number"
 
 
         // user Table Info
