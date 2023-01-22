@@ -14,10 +14,22 @@ class RegisterTask : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_task)
         val isCompleted = findViewById<RadioButton>(R.id.isCompleted)
-        val radioButton = isCompleted.isChecked
+        var radioButton = isCompleted.isChecked
         val taskName = findViewById<EditText>(R.id.task_name_text)
         val register = findViewById<Button>(R.id.register_task)
         val phoneNumber: String? = intent.getStringExtra("phoneNumber")
+
+        isCompleted.setOnClickListener{
+            if(!isCompleted.isChecked) {
+                isCompleted.isChecked=true
+                radioButton = true
+            }
+            else if (isCompleted.isChecked) {
+                isCompleted.isChecked= false
+                radioButton = false
+            }
+
+        }
         register.setOnClickListener{
 
             database.insertTask(taskName.text.toString(),radioButton,phoneNumber)
