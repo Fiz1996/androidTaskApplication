@@ -7,6 +7,8 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 
 class TaskActivity : AppCompatActivity() {
+
+    private var phoneNumber: String? = null
     private val database = UserDatabase(this)
     private lateinit var adapter: TasksRecyclerView
     private lateinit var usersList: RecyclerView
@@ -14,21 +16,19 @@ class TaskActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
 
-
-
+        phoneNumber = intent.getStringExtra("phoneNumber")
         usersList = findViewById(R.id.user_tasks)
         val addButton = findViewById<Button>(R.id.add)
-        var phoneNumber = intent.getStringExtra("phoneNumber")
         listAdapter(phoneNumber)
 
         addButton.setOnClickListener {
             val intent = Intent(this, RegisterTask::class.java)
-            intent.putExtra("phoneNumber",phoneNumber)
+            intent.putExtra("phoneNumber", phoneNumber)
             startActivity(intent)
         }
     }
 
-    private fun listAdapter(phoneNumber:String?) {
+    private fun listAdapter(phoneNumber: String?) {
         adapter = TasksRecyclerView(database.getTasks(phoneNumber))
 
         usersList.adapter = adapter
@@ -36,5 +36,6 @@ class TaskActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        listAdapter(phoneNumber)
     }
-    }
+}
